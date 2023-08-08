@@ -24,7 +24,8 @@
     "helmet": "^7.0.0",
     "mongoose": "^7.4.2",
     "regenerator-runtime": "^0.13.11",
-    "style-loader": "^3.3.3"
+    "style-loader": "^3.3.3",
+    "validator": "^13.11.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.22.9",
