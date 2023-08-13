@@ -1,39 +1,47 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
-const express = require('express');
+import express from 'express';
 const app = express();
 
-const mongoose = require('mongoose');
-mongoose.connect(process.env.CONNECTIONSTRING)
+import { connect } from 'mongoose';
+connect(process.env.CONNECTIONSTRING)
     .then(() => {
         app.emit('pronto')})
     .catch(e => console.log(e));
 
 // Sessões para identificar o navegador de um cliente    
-const session = require('express-session');
+import session from 'express-session';
 
 // MongoStore para salvar as sessões na base de dados
-const MongoStore = require('connect-mongo');
-const flash = require('connect-flash');
+import pkg from 'connect-mongo';
+const { create } = pkg;
+import flash from 'connect-flash';
 
-const routes = require('./routes');
-const path = require('path');
-const helmet = require('helmet');
+import routes from './routes.js';
+
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+import helmet from 'helmet';
 
 // CSRF Tokens - Para que nenhum site externo consiga postar coisas para dentro na nossa aplicação
-const csrf = require('csurf');
-const { middlewareGlobal, checkCsrfError, csrfMiddleware } = require('./src/middlewares/middleware');
+import csrf from 'csurf';
+import { middlewareGlobal, checkCsrfError, csrfMiddleware } from './src/middlewares/middleware.js';
 
 app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.resolve(__dirname, 'public')));
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+app.use(express.static(resolve(__dirname, 'public')));
 
 
 // Configurações de sessão
 const sessionOptions = session({
     secret: 'abhghghgd hsjddjsjd kshdkshdkshdk kdhsdkhskd shdskdhsk',
-    store: MongoStore.create({ mongoUrl: process.env.CONNECTIONSTRING }),
+    store: create({ mongoUrl: process.env.CONNECTIONSTRING }),
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -46,7 +54,7 @@ app.use(sessionOptions);
 app.use(flash());
 
 // Arquivos que reenderiza na tela (view)
-app.set('views', path.resolve(__dirname, 'src', 'views'));
+app.set('views', resolve(__dirname, 'src', 'views'));
 app.set('view engine', 'ejs');
 
 app.use(csrf());

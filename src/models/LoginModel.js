@@ -1,14 +1,15 @@
-const mongoose = require('mongoose');
-const validator = require('validator');
-const bcryptjs = require('bcryptjs');
+import { Schema, model } from 'mongoose';
+import validator from "validator";
+import pkg from 'bcryptjs';
+const { compareSync, genSaltSync, hashSync } = pkg;
 
-const LoginSchema = new mongoose.Schema({
+const LoginSchema = new Schema({
     email: { type: String, required: true },
     password: { type: String, required: true }
     
 });
 
-const LoginModel = mongoose.model('Login', LoginSchema);
+const LoginModel = model('Login', LoginSchema);
 
 class Login {
     constructor(body){
@@ -27,7 +28,7 @@ class Login {
             return;
         }
 
-        if (!bcryptjs.compareSync(this.body.password, this.user.password)) {
+        if (!compareSync(this.body.password, this.user.password)) {
             this.errors.push('Senha inválida');
             this.user = null;
         }
@@ -42,8 +43,8 @@ class Login {
 
         if (this.errors.length > 0) return;
 
-        const salt = bcryptjs.genSaltSync();
-        this.body.password = bcryptjs.hashSync(this.body.password, salt);
+        const salt = genSaltSync();
+        this.body.password = hashSync(this.body.password, salt);
 
         this.user = await LoginModel.create(this.body);
         
@@ -84,5 +85,5 @@ class Login {
     }
 };
 
-module.exports = Login;
+export default Login;
 

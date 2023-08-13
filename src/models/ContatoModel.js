@@ -1,8 +1,7 @@
-const mongoose = require('mongoose');
-const { async } = require('regenerator-runtime');
-const validator = require('validator');
+import { Schema, model } from 'mongoose';
+import validator from "validator";
 
-const ContatoSchema = new mongoose.Schema({
+const ContatoSchema = new Schema({
     nome: { type: String, required: false },
     sobrenome: { type: String, required: false, default: '' },
     email: { type: String, required: false, default: '' },
@@ -10,7 +9,7 @@ const ContatoSchema = new mongoose.Schema({
     criadoEm: { type: Date, default: Date.now }
 });
 
-const ContatoModel = mongoose.model('Contato', ContatoSchema);
+const ContatoModel = model('Contato', ContatoSchema);
 
 class Contato {
     constructor(body){
@@ -71,12 +70,12 @@ class Contato {
         return contatos;
     } 
 
-    static async delete(id){
+    static async deletes(id){
         if (typeof id !== 'string') return;
         const contato = await ContatoModel.findOneAndDelete({ _id : id});
         return contato;
     }
 };
 
-module.exports = Contato;
+export default Contato;
 

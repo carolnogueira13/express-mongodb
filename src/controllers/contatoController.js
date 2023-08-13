@@ -1,10 +1,11 @@
-const Contato = require('../models/ContatoModel');
+import Contato from '../models/ContatoModel.js';
 
-exports.index = function(req, res){
+
+export function index(req, res){
     res.render('contato', { contato: {} });
 }
 
-exports.register = async function(req, res){
+export async function register(req, res){
     try {
         const contato = new Contato(req.body);
         await contato.register();
@@ -25,7 +26,7 @@ exports.register = async function(req, res){
     }
 }
 
-exports.editIndex = async function(req,res) {
+export async function editIndex(req,res) {
     if (!req.params.id) return res.render('404');
 
     const contato = await Contato.buscaPorId(req.params.id);
@@ -34,7 +35,7 @@ exports.editIndex = async function(req,res) {
     res.render('contato', { contato });
 }
 
-exports.edit = async function(req,res) {
+export async function edit(req,res) {
     try {
         if (!req.params.id) return res.render('404');
         const contato = new Contato(req.body);
@@ -58,15 +59,16 @@ exports.edit = async function(req,res) {
     
 }
 
-exports.delete = async function(req, res){
+export async function deletes(req, res){
     if (!req.params.id) return res.render('404');
 
-    const contato = await Contato.delete(req.params.id);
+    const contato = await Contato.deletes(req.params.id);
     if (!contato) return res.render('404');
 
     req.flash('success', 'Contato apagado com sucesso');
     req.session.save(()=> res.redirect('back'));
 };
+
 
 
 

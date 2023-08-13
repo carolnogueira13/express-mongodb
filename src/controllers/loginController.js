@@ -1,11 +1,11 @@
-const Login = require('../models/LoginModel');
+import Login from '../models/LoginModel.js';
 
-exports.index = (req, res) => {
+export function index(req, res) {
     if (req.session.user) return res.render('login-logado');
     res.render('login');
-};
+}
 
-exports.register = async function(req,res) {
+export async function register(req,res) {
     try {
         const login = new Login(req.body);
         await login.register();
@@ -26,9 +26,9 @@ exports.register = async function(req,res) {
         console.log(e);
         return res.render('404');
     }   
-};
+}
 
-exports.login = async function(req,res) {
+export async function login(req,res) {
     try {
         const login = new Login(req.body);
         await login.login();
@@ -51,9 +51,9 @@ exports.login = async function(req,res) {
         console.log(e);
         return res.render('404');
     }   
-};
+}
 
-exports.logout = function(req, res) {
+export function logout(req, res) {
     req.session.destroy();
     res.redirect('/');
 }
