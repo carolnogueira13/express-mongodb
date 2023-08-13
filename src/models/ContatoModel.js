@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { async } = require('regenerator-runtime');
 const validator = require('validator');
 
 const ContatoSchema = new mongoose.Schema({
@@ -51,17 +52,29 @@ class Contato {
         };
     }
 
-    static async buscaPorId(id){
-        if (typeof id !== 'string') return;
-        const user = await ContatoModel.findById(id);
-        return user;
-    }
-
     async edit(id){
         if (typeof id !== 'string') return;
         this.valida();
         if (this.errors.length > 0) return;
         this.contato = await ContatoModel.findByIdAndUpdate(id, this.body, { new: true });  
+    }
+
+    static async buscaPorId(id){
+        if (typeof id !== 'string') return;
+        const contato = await ContatoModel.findById(id);
+        return contato;
+    }
+
+    static buscaContatos = async function () {
+        const contatos = await ContatoModel.find()
+            .sort({criadoEm: -1});
+        return contatos;
+    } 
+
+    static async delete(id){
+        if (typeof id !== 'string') return;
+        const contato = await ContatoModel.findOneAndDelete({ _id : id});
+        return contato;
     }
 };
 
