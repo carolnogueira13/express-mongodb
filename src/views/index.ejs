@@ -3,9 +3,10 @@
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-lg-10 my-3">
+        <div class="col-12 col-lg-10 my-3">
             <h1 class="text-center">Agenda</h1>
             <p class="text-center lead">Seus contatos estão abaixo</p>
+            <a href="/contato" >Novo contato</a>
 
             <%- include('includes/messages') %>
 
@@ -17,8 +18,7 @@
                         <td>Sobrenome</td>
                         <td>E-mail</td>
                         <td>Telefone</td>
-                        <td></td>
-                        <td></td>
+                        <td colspan="2"></td>
                     </tr>
                     <% contatos.forEach( contato => { %>
                     <tr>

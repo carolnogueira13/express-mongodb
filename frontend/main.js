@@ -12,10 +12,21 @@ const cadastro = new Login('.form-cadastro');
 const novoContato = new Contato('.form-registro')
 const editContato = new Contato('.form-edit')
 
+const botao = document.querySelector('.voltar');
+
+botao.addEventListener('click', ()=> {
+    window.location.assign("/");
+});
+
+
 login.init();
 cadastro.init();
 
 novoContato.init();
 editContato.init();
+
+
+
+
 
 

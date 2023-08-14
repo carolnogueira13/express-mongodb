@@ -8660,6 +8660,10 @@ var login = new _modules_Login_js__WEBPACK_IMPORTED_MODULE_0__["default"]('.form
 var cadastro = new _modules_Login_js__WEBPACK_IMPORTED_MODULE_0__["default"]('.form-cadastro');
 var novoContato = new _modules_Contato_js__WEBPACK_IMPORTED_MODULE_1__["default"]('.form-registro');
 var editContato = new _modules_Contato_js__WEBPACK_IMPORTED_MODULE_1__["default"]('.form-edit');
+var botao = document.querySelector('.voltar');
+botao.addEventListener('click', function () {
+  window.location.assign("/");
+});
 login.init();
 cadastro.init();
 novoContato.init();
