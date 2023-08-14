@@ -1,10 +1,14 @@
-const path = require('path'); // CommonJS
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+export default {
     mode: 'development',
     entry: './frontend/main.js',
     output: {
-        path: path.resolve(__dirname, 'public', 'assets', 'js'),
+        path: resolve(__dirname, 'public', 'assets', 'js'),
         filename: 'bundle.js'
     },
     module: {
@@ -24,4 +28,9 @@ module.exports = {
         }]
     },
     devtool: 'source-map'
-}
+};
+
+
+
+
+
